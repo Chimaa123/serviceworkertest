@@ -93,10 +93,12 @@ export const uploadFile = (
 };
 // get data from indexedb and send to server
 const getFiles = () => {
+  console.log("getFiles");
   return new Promise((resolve, reject) => {
     openDB(UPLOAD_STORE_NAME)
       .then((db) => {
         const files: any[] = [];
+        console.log("getFiles opendb");
         const store = openObjectStore(db, UPLOAD_STORE_NAME, "readwrite");
         const openCursor = store.openCursor();
         openCursor.openCursor().onsuccess = (event: any) => {
@@ -126,6 +128,7 @@ export const syncFiles = () => {
           file.file,
           () => {},
           () => {
+            console.log("sync oncomplete upload");
             deleteFromIndexdb(UPLOAD_STORE_NAME, file.id);
           }
         );
