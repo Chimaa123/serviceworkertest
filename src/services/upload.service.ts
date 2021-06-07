@@ -29,7 +29,9 @@ export const uploadDirectS3 = (
   return bucket
     .putObject(params)
     .on("httpUploadProgress", (evt) => {
-      onProgress(Math.round((evt.loaded / evt.total) * 100));
+      const progress = Math.round((evt.loaded / evt.total) * 100);
+      onProgress(progress)
+      alert("Uploading ... ("+progress+"/100)")
     })
     .send((err) => {
       if (err) console.log(err);
