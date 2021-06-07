@@ -146,6 +146,14 @@ self.addEventListener("sync", function (event: any) {
   if (event.tag == UPLOAD_SYNC_NAME) {
     console.log("sync event fired in if");
     //waitUntil method is to ensure our uploadData method is performed without interrupt
-    event.waitUntil(syncFiles());
+    event.waitUntil(
+      syncFiles()
+        .then(() => {
+          console.log("sync completed");
+        })
+        .catch((err) => {
+          console.log("sync error", err);
+        })
+    );
   }
 });
