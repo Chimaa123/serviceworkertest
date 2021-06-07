@@ -4,14 +4,16 @@ const DB_NAME = "pwa-upload";
 export const UPLOAD_STORE_NAME = "uploads";
 export const UPLOAD_SYNC_NAME = "upload-sync";
 
+declare const self: ServiceWorkerGlobalScope;
+
 export const openDB = (storeName: string) => {
   console.log("index db open");
   return new Promise((resolve, reject) => {
-    if (!window.indexedDB) {
+    if (!self.indexedDB) {
       reject("IndexedDB not supported");
     }
 
-    const request = window.indexedDB.open(DB_NAME, DB_VERSION);
+    const request = self.indexedDB.open(DB_NAME, DB_VERSION);
     request.onerror = (event: any) => {
       console.log("object store failed to create", event.target.error);
       reject("DB error: " + event.target.error);
@@ -81,7 +83,7 @@ export const uploadFile = (
   };
   addObject(UPLOAD_STORE_NAME, postData).catch((e) => console.error(e));
 
-  if ("serviceWorker" in navigator && "SyncManager" in window) {
+  if ("serviceWorker" in navigator && "SyncManager" in self) {
     console.log("serviceworker supported");
     navigator.serviceWorker.ready.then(function (registration) {
       registration.sync.register(UPLOAD_SYNC_NAME);
