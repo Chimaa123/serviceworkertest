@@ -1,11 +1,11 @@
 import http from "./http.service";
 import AWS from "aws-sdk";
-const S3_BUCKET_NAME = process.env.REACT_APP_AWS_BUCKET_NAME; // || "delivuspwa";
-const AWS_REGION = process.env.REACT_APP_AWS_REGION; // || "ap-northeast-2";
+const S3_BUCKET_NAME = process.env.REACT_APP_AWS_BUCKET_NAME;
+const AWS_REGION = process.env.REACT_APP_AWS_REGION;
 
 AWS.config.update({
-  accessKeyId: process.env.REACT_APP_AWS_ACCESS_ID, // || "AKIARBBRIOAM6BIKEVS2",
-  secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY, // || "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",
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_ID,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
 });
 
 const bucket = new AWS.S3({
