@@ -91,7 +91,6 @@ export const uploadFile = (
   } else {
     console.log("no serviceworker upload directly");
     uploadDirectS3(file, onProgress, () => {
-      deleteFromIndexdb(UPLOAD_STORE_NAME);
     });
   }
 };
@@ -131,8 +130,8 @@ export const syncFiles = () => {
         return uploadDirectS3(
           file.file,
           () => {},
-          () => {
-            console.log("sync oncomplete upload");
+          (data) => {
+            console.log("sync oncomplete upload", data);
             deleteFromIndexdb(UPLOAD_STORE_NAME, file.id);
           }
         );
