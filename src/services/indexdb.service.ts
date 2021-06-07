@@ -102,8 +102,7 @@ const getFiles = () => {
         const files: any[] = [];
         console.log("getFiles opendb");
         const store = openObjectStore(db, UPLOAD_STORE_NAME, "readwrite");
-        const openCursor = store.openCursor();
-        openCursor.openCursor().onsuccess = (event: any) => {
+        store.openCursor().onsuccess = (event: any) => {
           const cursor = event.target.result;
           if (cursor) {
             console.log("upload unsent cursor exist", cursor.value);
