@@ -83,18 +83,16 @@ export const uploadFile = (
   };
   addObject(UPLOAD_STORE_NAME, postData).catch((e) => console.error(e));
 
-  if (
-    "serviceWorker" in navigator &&
-    "SyncManager" in self &&
-    !navigator.onLine
-  ) {
+  if ("serviceWorker" in navigator && "SyncManager" in self) {
     console.log("serviceworker supported");
     navigator.serviceWorker.ready.then(function (registration) {
       registration.sync.register(UPLOAD_SYNC_NAME);
     });
   } else {
     console.log("no serviceworker upload directly");
-    uploadDirectS3(file, onProgress, onComplete);
+    uploadDirectS3(file, onProgress, () => {
+      deleteFromIndexdb(UPLOAD_STORE_NAME);
+    });
   }
 };
 // get data from indexedb and send to server
