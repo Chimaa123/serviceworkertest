@@ -13,7 +13,7 @@ import { ExpirationPlugin } from "workbox-expiration";
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
-import { syncFiles } from "./services/indexdb.service";
+import {syncFiles, UPLOAD_SYNC_NAME} from "./services/indexdb.service";
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -143,7 +143,7 @@ self.addEventListener("fetch", (event: any) => {
 
 self.addEventListener("sync", function (event: any) {
   console.log("sync event fired", event.tag);
-  if (event.tag == "upload_sync") {
+  if (event.tag == UPLOAD_SYNC_NAME) {
       console.log("sync event fired in if");
     //waitUntil method is to ensure our uploadData method is performed without interrupt
     event.waitUntil(syncFiles());
