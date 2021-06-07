@@ -144,6 +144,7 @@ self.addEventListener("fetch", (event: any) => {
 self.addEventListener("sync", function (event: any) {
   console.log("sync event fired", event.tag);
   if (event.tag == "upload_sync") {
+      console.log("sync event fired in if");
     //waitUntil method is to ensure our uploadData method is performed without interrupt
     event.waitUntil(syncFiles());
   }
