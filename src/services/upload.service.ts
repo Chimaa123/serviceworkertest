@@ -1,12 +1,11 @@
 import http from "./http.service";
 import AWS from "aws-sdk";
-const S3_BUCKET_NAME = process.env.AWS_BUCKET_NAME || "delivuspwa";
-const AWS_REGION = process.env.AWS_REGION || "ap-northeast-2";
+const S3_BUCKET_NAME = process.env.REACT_APP_AWS_BUCKET_NAME; // || "delivuspwa";
+const AWS_REGION = process.env.REACT_APP_AWS_REGION; // || "ap-northeast-2";
 
 AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_ID || "AKIARBBRIOAM6BIKEVS2",
-  secretAccessKey:
-    process.env.AWS_SECRET_KEY || "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",
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_ID, // || "AKIARBBRIOAM6BIKEVS2",
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY, // || "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",
 });
 
 const bucket = new AWS.S3({
@@ -26,17 +25,23 @@ export const uploadDirectS3 = (
     Key: file.name,
   };
   console.log("env", S3_BUCKET_NAME, AWS_REGION);
-  return bucket
-    .putObject(params)
-    .on("httpUploadProgress", (evt) => {
-      const progress = Math.round((evt.loaded / evt.total) * 100);
-      onProgress(progress);
-    })
-    .send((err) => {
-      if (err) console.log(err);
-      alert("Upload completed");
-      onComplete(err);
-    });
+  return (
+    bucket
+      // @ts-ignore
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        const progress = Math.round((evt.loaded / evt.total) * 100);
+        onProgress(progress);
+      })
+      .send((err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          alert("Upload completed");
+        }
+        onComplete(err);
+      })
+  );
 };
 
 export const uploadThroughBackend = (

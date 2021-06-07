@@ -81,7 +81,11 @@ export const uploadFile = (
   };
   addObject(UPLOAD_STORE_NAME, postData).catch((e) => console.error(e));
 
-  if ("serviceWorker" in navigator && "SyncManager" in window) {
+  if (
+    "serviceWorker" in navigator &&
+    "SyncManager" in window &&
+    !navigator.onLine
+  ) {
     console.log("serviceworker supported");
     navigator.serviceWorker.ready.then(function (registration) {
       registration.sync.register(UPLOAD_SYNC_NAME);
