@@ -20,7 +20,7 @@ export const uploadDirectS3 = (
   onProgress: (progress: number) => void,
   onComplete: (err: any) => void
 ) => {
-  console.log("env", S3_BUCKET_NAME, AWS_REGION);
+  console.log("env", AWS_ACCESS_ID, AWS_SECRET_KEY, S3_BUCKET_NAME, AWS_REGION);
   return S3Client.uploadFile(file)
     .then((data: any) => {
       alert("Upload completed");
