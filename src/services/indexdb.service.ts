@@ -120,6 +120,7 @@ const getFiles = () => {
 };
 
 export const syncFiles = () => {
+  console.log("syncFiles enter");
   return getFiles().then((files) => {
     return Promise.all(
       // @ts-ignore
