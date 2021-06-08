@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
-import { watchLocation } from "../services/location.service";
+import {
+  getCurrentPosition,
+  watchLocation,
+} from "../services/location.service";
 import { Button } from "antd";
 
 declare global {
@@ -11,7 +14,7 @@ declare global {
 const TMapComponent = () => {
   let map: any;
   let InfoWindow: any;
-  let marker_s, marker_d;
+  let marker_s: any, marker_d;
 
   useEffect(() => {
     watchLocation(onLocationRetrieved);
@@ -61,40 +64,34 @@ const TMapComponent = () => {
   }
 
   function onLocationRetrieved(position: GeolocationPosition | null) {
-    console.log("onLocation retrieved", position);
     displayGeolocationmarker(position, true);
   }
 
   function displayGeolocationmarker(
     geolocation: GeolocationPosition | null,
-    setCenter: boolean
+    setCenter?: boolean
   ) {
     if (geolocation == null) {
       return;
     }
-    const lat = geolocation.coords.latitude; // 위도
-    const lon = geolocation.coords.longitude; // 경도
+    // let lat = 37.56445848334345; // 위도
+    // let lon = 127.00973587385866; // 경도
+    let lat = geolocation.coords.latitude; // 위도
+    let lon = geolocation.coords.longitude; // 경도
     const position = new window.Tmapv2.LatLng(lat, lon);
+    if (marker_s) {
+      marker_s.setVisible(false);
+    }
     marker_s = new window.Tmapv2.Marker({
-      id: "currentLocation",
+      id: "markers",
       position,
+      title: "현재 위치. 움직여보세요.",
       draggable: true, //Marker의 드래그 가능 여부.
       icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
       iconSize: new window.Tmapv2.Size(24, 38),
       map: map,
     });
 
-    InfoWindow = new window.Tmapv2.InfoWindow({
-      position: new window.Tmapv2.LatLng(lat, lon),
-      content:
-        "<div style=' position: relative; border-bottom: 1px solid #dcdcdc; line-height: 18px; padding: 0 35px 2px 0;'>" +
-        "<div style='font-size: 12px; line-height: 15px;'>" +
-        "<span style='display: inline-block; width: 14px; height: 14px; background-image: url(/resources/images/common/icon_blet.png); vertical-align: middle; margin-right: 5px;'></span>현재위치" +
-        "</div>" +
-        "</div>",
-      type: 2,
-      map: map,
-    });
     setCenter && map && map.setCenter(position);
   }
 
