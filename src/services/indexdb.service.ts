@@ -90,8 +90,7 @@ export const uploadFile = (
     });
   } else {
     console.log("no serviceworker upload directly");
-    uploadDirectS3(file, onProgress, () => {
-    });
+    uploadDirectS3(file, onProgress, () => {});
   }
 };
 // get data from indexedb and send to server
