@@ -4,7 +4,7 @@ import {
   watchLocation,
 } from "../services/location.service";
 import { Button, Image } from "antd";
-import { routeOptimization } from "../services/tmap.service";
+import { getRoute, getRoutewithVia } from "../services/tmap.service";
 import hubImage from "../assets/images/hub.map.png";
 import startSvg from "../assets/svgs/start.map.svg";
 import destinationSvg from "../assets/svgs/destination.map.svg";
@@ -12,6 +12,7 @@ import myLocationSvg from "../assets/svgs/mylocation.map.svg";
 import btnMyLocationSvg from "../assets/svgs/btn_mylocation.map.svg";
 import vias from "../assets/svgs/vias.map";
 import "../design/ css/tmap.style.css";
+import { TMapRouteResponse } from "../types/tmap.types";
 
 declare global {
   interface Window {
@@ -82,35 +83,59 @@ const TMapComponent = () => {
     });
   }
 
-  function changeMapType(type: "SATELLITE" | "HYBRID" | "ROAD") {
-    console.log("changeMapType", type);
-    const map = mapRef.current;
-    if ("SATELLITE" === type) {
-      map.setMapType(window.Tmapv2.Map.MapType.SATELLITE);
-    } else if ("HYBRID" === type) {
-      map.setMapType(window.Tmapv2.Map.MapType.HYBRID);
-    } else if ("ROAD" === type) {
-      map.setMapType(window.Tmapv2.Map.MapType.ROAD);
-    }
+  function drawRoute(response: TMapRouteResponse) {
+    var resultData = response.data.features;
+    for (var i in resultData) {
+      //for문 [S]
+      var geometry = resultData[i].geometry;
+      var properties = resultData[i].properties;
+
+      if (geometry.type == "LineString") {
+        for (var j in geometry.coordinates) {
+          // 경로들의 결과값들을 포인트 객체로 변환
+          var latlng = new window.Tmapv2.Point(
+            geometry.coordinates[j][0],
+            geometry.coordinates[j][1]
+          );
+          drawInfoArr.push(latlng);
+        }
+        drawLine(drawInfoArr);
+      } else {
+        var markerImg = "";
+        var pType = "";
+
+        if (properties.pointType == "S") {
+          //출발지 마커
+          markerImg =
+            "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
+          pType = "S";
+        } else if (properties.pointType == "E") {
+          //도착지 마커
+          markerImg =
+            "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
+          pType = "E";
+        } else {
+          //각 포인트 마커
+          markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
+          pType = "P";
+        }
+
+        var routeInfoObj = {
+          markerImage: markerImg,
+          lng: geometry.coordinates[0],
+          lat: geometry.coordinates[1],
+          pointType: pType,
+        };
+
+        // Marker 추가
+        addMarkers(routeInfoObj);
+      }
+    } //for문 [E]
   }
 
   function drawPath(response: any) {
     console.log("drawtest", response);
     var resultData = response.data.features;
-
-    var resultProperties = response.data.properties;
-
-    var innerHtml = "";
-
-    var tDistance =
-      "총 거리 : " +
-      (resultProperties.totalDistance / 1000).toFixed(1) +
-      "km, ";
-    var tTime =
-      "총 시간 : " + (resultProperties.totalTime / 60).toFixed(0) + "분, ";
-    var tFare = "총 요금 : " + resultProperties.totalFare + "원, ";
-    var taxiFare = "예상 택시 요금 : " + resultProperties.taxiFare + "원";
-
     drawInfoArr = [];
     var lineYn = false;
 
@@ -123,15 +148,6 @@ const TMapComponent = () => {
       if (geometry.type == "LineString") {
         for (var j in geometry.coordinates) {
           // 경로들의 결과값들을 포인트 객체로 변환
-          var latlng = new window.Tmapv2.Point(
-            geometry.coordinates[j][0],
-            geometry.coordinates[j][1]
-          );
-          // 포인트 객체를 받아 좌표값으로 변환
-          var convertPoint = new window.Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-            latlng
-          );
-          // 포인트객체의 정보로 좌표값 변환 객체로 저장
           var convertChange = new window.Tmapv2.LatLng(
             geometry.coordinates[j][1],
             geometry.coordinates[j][0]
@@ -141,6 +157,7 @@ const TMapComponent = () => {
             drawInfoArr.push(convertChange);
           }
         }
+        drawLine(drawInfoArr);
       } else {
         if (
           properties.pointType == "S" ||
@@ -171,16 +188,6 @@ const TMapComponent = () => {
           pType = "P";
         }
 
-        // 경로들의 결과값들을 포인트 객체로 변환
-        var latlon = new window.Tmapv2.Point(
-          geometry.coordinates[0],
-          geometry.coordinates[1]
-        );
-        // 포인트 객체를 받아 좌표값으로 다시 변환
-        var convertPoint = new window.Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-          latlon
-        );
-
         var routeInfoObj = {
           markerImage: markerImg,
           lng: geometry.coordinates[0],
@@ -192,7 +199,6 @@ const TMapComponent = () => {
         addMarkers(routeInfoObj);
       }
     } //for문 [E]
-    drawLine(drawInfoArr);
   }
 
   function drawLine(arrPoint: any[]) {
@@ -265,7 +271,26 @@ const TMapComponent = () => {
   function handleGetRoute() {
     //기존 맵에 있던 정보들 초기화
     resettingMap();
-    routeOptimization({
+    getRoute({
+      startX: "126.9850380932383",
+      startY: "37.566567545861645",
+      endX: "127.10331814639885",
+      endY: "37.403049076341794",
+      reqCoordType: "WGS84GEO",
+      resCoordType: "WGS84GEO",
+      searchOption: 0,
+      trafficInfo: "Y",
+    })
+      .then(drawPath)
+      .catch((error) => {
+        console.log("code:" + "\n" + "message:" + "\n" + "error:" + error);
+      });
+  }
+
+  function handleGetRouteWithVia() {
+    //기존 맵에 있던 정보들 초기화
+    resettingMap();
+    getRoutewithVia({
       startName: "출발지", //출발지 명칭
       //출발지 위경도 좌표입니다.
       startX: "127.00973587385866",
@@ -331,8 +356,11 @@ const TMapComponent = () => {
 
   return (
     <div>
-      <Button onClick={handleGetRoute}>ROAD</Button>
       <div id="TMapApp" className={"map"} />
+      <div className={"controller"}>
+        <Button onClick={handleGetRoute}>ROAD</Button>
+        {/*<Button onClick={handleGetRouteWithVia}>VIA ROAD</Button>*/}
+      </div>
       <Image
         className={"btn-current-location"}
         preview={false}

@@ -3,6 +3,16 @@
     width: 100%;
     position: fixed;
 }
+
+.controller {
+    width: 100%;
+    align-content: center;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    padding: 20px;
+}
+
 .btn-current-location {
     position: fixed;
     bottom: 20px;
