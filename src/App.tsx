@@ -19,6 +19,7 @@ function App() {
           <Home />
         </Route>
       </Switch>
+      {/*<Navigation />*/}
     </Router>
   );
 }

@@ -1,0 +1,12 @@
+.map {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+}
+.btn-current-location {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    height: 100px;
+    width: 100px;
+}

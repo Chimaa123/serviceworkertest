@@ -59,7 +59,7 @@ export const addObject = (storeName: string, dataObject: any) => {
   });
 };
 
-// delete data from indexedb, that sent to server
+// delete datas from indexedb, that sent to server
 export function deleteFromIndexdb(storeName: string, index: number) {
   return new Promise((resolve, reject) => {
     openDB(storeName)
@@ -93,7 +93,7 @@ export const uploadFile = (
     uploadDirectS3(file, onProgress, () => {});
   }
 };
-// get data from indexedb and send to server
+// get datas from indexedb and send to server
 const getFiles = () => {
   console.log("getFiles");
   return new Promise((resolve, reject) => {

@@ -73,11 +73,11 @@ const CameraComponent = ({ onSubmit }: Props) => {
     const data = photo.toBlob(onSubmit);
 
     // const link = document.createElement("a");
-    // link.href = data;
+    // link.href = datas;
     // link.setAttribute("download", "myWebcam");
-    // link.innerHTML = `<img src='${data}' alt='thumbnail'/>`;
+    // link.innerHTML = `<img src='${datas}' alt='thumbnail'/>`;
     // strip.insertBefore(link, strip.firstChild);
-    // onSubmit({target: {files: [data]}});
+    // onSubmit({target: {files: [datas]}});
   };
 
   return (

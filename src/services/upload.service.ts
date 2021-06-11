@@ -42,7 +42,7 @@ export const uploadThroughBackend = (
 
   return http.post("/itemphotos", formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "multipart/form-datas",
     },
     onUploadProgress: function (event) {
       console.log("onUploadProgress", event);

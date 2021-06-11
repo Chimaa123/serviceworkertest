@@ -1,0 +1,26 @@
+[
+  {
+    "viaPointId": "test01",
+    "viaPointName": "nmae01",
+    "viaX": "126.99749158970432",
+    "viaY": "37.56652289898868"
+  },
+  {
+    "viaPointId": "test02",
+    "viaPointName": "nmae02",
+    "viaX": "126.99823724381592",
+    "viaY": "37.56450100535406"
+  },
+  {
+    "viaPointId": "test03",
+    "viaPointName": "nmae03",
+    "viaX": "127.00186090818215",
+    "viaY": "37.570721714117965"
+  },
+  {
+    "viaPointId": "test04",
+    "viaPointName": "nmae04",
+    "viaX": "127.0022149597658",
+    "viaY": "37.56568310756034"
+  }
+]
