@@ -12,7 +12,6 @@ import myLocationSvg from "../assets/svgs/mylocation.map.svg";
 import btnMyLocationSvg from "../assets/svgs/btn_mylocation.map.svg";
 import vias from "../assets/svgs/vias.map";
 import "../design/ css/tmap.style.css";
-import { TMapRouteResponse } from "../types/tmap.types";
 
 declare global {
   interface Window {
@@ -83,58 +82,8 @@ const TMapComponent = () => {
     });
   }
 
-  function drawRoute(response: TMapRouteResponse) {
-    var resultData = response.data.features;
-    for (var i in resultData) {
-      //for문 [S]
-      var geometry = resultData[i].geometry;
-      var properties = resultData[i].properties;
-
-      if (geometry.type == "LineString") {
-        for (var j in geometry.coordinates) {
-          // 경로들의 결과값들을 포인트 객체로 변환
-          var latlng = new window.Tmapv2.Point(
-            geometry.coordinates[j][0],
-            geometry.coordinates[j][1]
-          );
-          drawInfoArr.push(latlng);
-        }
-        drawLine(drawInfoArr);
-      } else {
-        var markerImg = "";
-        var pType = "";
-
-        if (properties.pointType == "S") {
-          //출발지 마커
-          markerImg =
-            "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
-          pType = "S";
-        } else if (properties.pointType == "E") {
-          //도착지 마커
-          markerImg =
-            "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
-          pType = "E";
-        } else {
-          //각 포인트 마커
-          markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
-          pType = "P";
-        }
-
-        var routeInfoObj = {
-          markerImage: markerImg,
-          lng: geometry.coordinates[0],
-          lat: geometry.coordinates[1],
-          pointType: pType,
-        };
-
-        // Marker 추가
-        addMarkers(routeInfoObj);
-      }
-    } //for문 [E]
-  }
-
   function drawPath(response: any) {
-    console.log("drawtest", response);
+    console.log("drawtest 1", response);
     var resultData = response.data.features;
     drawInfoArr = [];
     var lineYn = false;
@@ -142,9 +91,11 @@ const TMapComponent = () => {
     //그리기
     //for문 [S]
     for (var i in resultData) {
+      console.log("drawPath for", i, lineYn);
       var geometry = resultData[i].geometry;
       var properties = resultData[i].properties;
 
+      console.log("drawPath for", i, lineYn);
       if (geometry.type == "LineString") {
         for (var j in geometry.coordinates) {
           // 경로들의 결과값들을 포인트 객체로 변환
@@ -153,10 +104,12 @@ const TMapComponent = () => {
             geometry.coordinates[j][0]
           );
           // 배열에 담기
+          console.log("drawPath LineString", i, j, lineYn);
           if (lineYn) {
             drawInfoArr.push(convertChange);
           }
         }
+        console.log("drawLine", i, geometry.coordinates.length);
         drawLine(drawInfoArr);
       } else {
         if (
@@ -169,41 +122,29 @@ const TMapComponent = () => {
           lineYn = false;
         }
 
-        var markerImg = "";
-        var pType = "";
+        var markerType: any = "llPass";
 
         if (properties.pointType == "S") {
-          //출발지 마커
-          markerImg =
-            "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
-          pType = "S";
+          markerType = "llStart";
         } else if (properties.pointType == "E") {
-          //도착지 마커
-          markerImg =
-            "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
-          pType = "E";
+          markerType = "llEnd";
         } else {
           //각 포인트 마커
-          markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
-          pType = "P";
+          markerType = "llPoint";
         }
-
-        var routeInfoObj = {
-          markerImage: markerImg,
-          lng: geometry.coordinates[0],
-          lat: geometry.coordinates[1],
-          pointType: pType,
-        };
-
-        // Marker 추가
-        addMarkers(routeInfoObj);
+        addMarker(
+          markerType,
+          geometry.coordinates[0],
+          geometry.coordinates[1],
+          0,
+          false
+        );
       }
     } //for문 [E]
   }
 
   function drawLine(arrPoint: any[]) {
     var polyline_;
-
     console.log("drawLine", arrPoint);
     polyline_ = new window.Tmapv2.Polyline({
       path: arrPoint,
@@ -212,25 +153,6 @@ const TMapComponent = () => {
       map: mapRef.current,
     });
     resultdrawArr.push(polyline_);
-  }
-
-  function addMarkers(infoObj: any) {
-    console.log("addMarkers", infoObj);
-    var size = new window.Tmapv2.Size(24, 38); //아이콘 크기 설정합니다.
-
-    if (infoObj.pointType == "P") {
-      //포인트점일때는 아이콘 크기를 줄입니다.
-      size = new window.Tmapv2.Size(8, 8);
-    }
-
-    marker_p = new window.Tmapv2.Marker({
-      position: new window.Tmapv2.LatLng(infoObj.lat, infoObj.lng),
-      icon: infoObj.markerImage,
-      iconSize: size,
-      map: mapRef.current,
-    });
-
-    resultMarkerArr.push(marker_p);
   }
 
   //초기화 기능
@@ -315,7 +237,7 @@ const TMapComponent = () => {
 
   //마커 생성하기
   function addMarker(
-    status: "llPass" | "llStart" | "llEnd" | "llHub" | "llMine",
+    status: "llPass" | "llStart" | "llEnd" | "llHub" | "llMine" | "llPoint",
     lon: number,
     lat: number,
     tag: number,
@@ -340,6 +262,9 @@ const TMapComponent = () => {
       case "llHub":
         imgURL = hubImage;
         break;
+      case "llPoint":
+        imgURL = "http://topopen.tmap.co.kr/imgs/point.png";
+        break;
       default:
     }
     marker = new window.Tmapv2.Marker({
@@ -359,7 +284,7 @@ const TMapComponent = () => {
       <div id="TMapApp" className={"map"} />
       <div className={"controller"}>
         <Button onClick={handleGetRoute}>ROAD</Button>
-        {/*<Button onClick={handleGetRouteWithVia}>VIA ROAD</Button>*/}
+        <Button onClick={handleGetRouteWithVia}>VIA ROAD</Button>
       </div>
       <Image
         className={"btn-current-location"}

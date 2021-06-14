@@ -1,0 +1,85 @@
+.container {
+    position: fixed;
+    left: 5.33%;
+    right: 5.33%;
+    bottom: 12.68%;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+    background-color: white;
+}
+
+.name {
+    margin-left: 20px;
+    color: rgba(34, 34, 34, 1);
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+    line-height: 22px;
+}
+
+.deadline {
+    flex: 1;
+    color: rgba(24, 144, 255, 1);
+    font-weight: 400;
+    font-size: 12px;
+    text-align: center;
+    line-height: 22px;
+}
+
+.row {
+    align-items: center;
+    height: 42px;
+}
+
+.addressContainer {
+    height: 72px;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(240, 240, 240, 1)
+}
+
+.address1 {
+    width: 100%;
+    margin-left: 20px;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.address2 {
+    width: 100%;
+    margin-left: 20px;
+    color: rgba(0, 0, 0, 0.45);
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 22px;
+}
+
+.button {
+    width: 100%;
+    color: rgba(24, 144, 255, 1);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 22px;
+    border: white;
+    border-right: 1px solid rgba(240, 240, 240, 1);
+}
+
+.count {
+    width: 30%;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    line-height: 22px;
+    border-right: 1px solid rgba(240, 240, 240, 1);
+}
+
+.earn {
+    width: 30%;
+    color: rgba(34, 34, 34, 1);
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    line-height: 22px;
+}

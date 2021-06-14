@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs, Typography } from "antd";
-import "../design/ css/navigation.style.css";
+import "../../design/ css/navigation.style.css";
 import { UnorderedListOutlined, CameraOutlined } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
 

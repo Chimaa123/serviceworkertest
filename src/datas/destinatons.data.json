@@ -3,42 +3,30 @@
     "viaPointId": "test01",
     "viaPointName": "nmae01",
     "viaX": "127.10383447161374",
-    "viaY": "37.39977944684827"
+    "viaY": "37.39977944684827",
+    "name": "허브1 / 박스 A01",
+    "deadline": "2021-07-01 12:00",
+    "address1": "서울 광진구 천호대로 538",
+    "address2": "지번 서울 광진구 군자동 473-21"
   },
   {
     "viaPointId": "test02",
     "viaPointName": "nmae02",
     "viaX": "127.10880192270551",
-    "viaY": "37.403090624969444"
+    "viaY": "37.403090624969444",
+    "name": "허브2 / 박스 A02",
+    "deadline": "2021-07-01 15:00",
+    "address1": "서울 광진구 천호대로 538",
+    "address2": "지번 서울 광진구 군자동 473-21"
   },
   {
     "viaPointId": "test03",
     "viaPointName": "nmae03",
     "viaX": "127.10961999644414",
-    "viaY": "37.396214546497006"
-  },
-  {
-    "viaPointId": "test04",
-    "viaPointName": "nmae04",
-    "viaX": "127.12184014071082",
-    "viaY": "37.408794286891556"
-  },
-  {
-    "viaPointId": "test05",
-    "viaPointName": "nmae05",
-    "viaX": "127.12385716188501",
-    "viaY": "37.3990997210124"
-  },
-  {
-    "viaPointId": "test06",
-    "viaPointName": "nmae06",
-    "viaX": "127.12888362157408",
-    "viaY": "37.405577108486185"
-  },
-  {
-    "viaPointId": "test07",
-    "viaPointName": "nmae07",
-    "viaX": "127.1226555322417",
-    "viaY": "37.41478937524323"
+    "viaY": "37.396214546497006",
+    "name": "허브3 / 박스 A03",
+    "deadline": "2021-07-01 12:00",
+    "address1": "서울 광진구 천호대로 538",
+    "address2": "지번 서울 광진구 군자동 473-21"
   }
 ]

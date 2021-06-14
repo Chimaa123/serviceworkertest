@@ -3,7 +3,7 @@ import React, { useMemo, useState } from "react";
 import Button from "antd/lib/button";
 import { Progress, Row, Col, Tabs } from "antd";
 import CameraComponent from "./camera.component";
-import { uploadFile } from "../services/indexdb.service";
+import { uploadFile } from "../../services/indexdb.service";
 
 const { TabPane } = Tabs;
 const MESSAGE_NO_CURRENT_IMAGE = 10;
