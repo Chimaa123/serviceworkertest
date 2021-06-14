@@ -54,12 +54,12 @@ const TMapComponent = () => {
     position: GeolocationPosition | null,
     setCenter?: boolean
   ) {
-    let lat = 37.56445848334345; // 위도
-    let lon = 127.00973587385866; // 경도
+    // let lat = 37.56445848334345; // 위도
+    // let lon = 127.00973587385866; // 경도
+    let lat = position?.coords.latitude; // 위도
+    let lon = position?.coords.longitude; // 경도
     setCurrentPosition({ coords: { latitude: lat, longitude: lon } });
     console.log("onLocationRetreived", lon, lat);
-    // let lat = position.coords.latitude; // 위도
-    // let lon = position.coords.longitude; // 경도
     addMarker("llMine", lon, lat, 0, setCenter);
   }
 
@@ -237,9 +237,9 @@ const TMapComponent = () => {
   //마커 생성하기
   function addMarker(
     status: "llPass" | "llStart" | "llEnd" | "llHub" | "llMine" | "llPoint",
-    lon: number,
-    lat: number,
-    tag: number,
+    lon?: number,
+    lat?: number,
+    tag?: number,
     setCenter?: boolean,
     dest?: any
   ) {
@@ -254,7 +254,7 @@ const TMapComponent = () => {
         imgURL = startSvg;
         break;
       case "llPass":
-        imgURL = vias[tag];
+        imgURL = tag != undefined ? vias[tag] : startSvg;
         break;
       case "llEnd":
         imgURL = destinationSvg;
@@ -281,7 +281,8 @@ const TMapComponent = () => {
       });
     }
     marker.tag = tag;
-    markerList[tag] = marker;
+
+    if (tag != undefined) markerList[tag] = marker;
     marker_d = marker;
     setCenter && mapRef.current && mapRef.current.setCenter(position);
     return marker;
