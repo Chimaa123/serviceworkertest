@@ -26,7 +26,6 @@ const CameraComponent = ({ onSubmit }: Props) => {
   }, []);
 
   const stopCamera = () => {
-    console.log("stopCamera", stream);
     if (!stream) return;
     stream.getTracks().map((t: MediaStreamTrack) => t.stop());
     stream = null;

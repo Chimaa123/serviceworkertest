@@ -26,7 +26,6 @@ const MapAddressComponent = (props: Props) => {
   const onClick = () => {
     onGetRoute && onGetRoute(props);
   };
-  console.log("destination", name, route, count);
   return (
     <Col className={"container"}>
       <Row className={"row"}>

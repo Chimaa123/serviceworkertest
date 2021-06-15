@@ -54,12 +54,11 @@ const TMapComponent = () => {
     position: GeolocationPosition | null,
     setCenter?: boolean
   ) {
-    let lat = 37.56445848334345; // 위도
-    let lon = 127.00973587385866; // 경도
-    // let lat = position?.coords.latitude; // 위도
-    // let lon = position?.coords.longitude; // 경도
+    // let lat = 37.56445848334345; // 위도
+    // let lon = 127.00973587385866; // 경도
+    let lat = position?.coords.latitude; // 위도
+    let lon = position?.coords.longitude; // 경도
     setCurrentPosition({ coords: { latitude: lat, longitude: lon } });
-    console.log("onLocationRetreived", lon, lat);
     addMarker("llMine", lon, lat, 0, setCenter);
   }
 
@@ -72,7 +71,6 @@ const TMapComponent = () => {
   function setCenter(lat?: number, lon?: number) {
     const map = mapRef.current;
     if (lon && lat && map) {
-      console.log("map setCenter", lat, lon);
       map.setCenter(new window.Tmapv2.LatLng(lat, lon));
       map.setZoom(1);
     }
@@ -85,7 +83,6 @@ const TMapComponent = () => {
   }
 
   function drawPath(response: any) {
-    console.log("drawtest", response);
     var resultData = response.data.features;
     drawInfoArr = [];
     var lineYn = false;
@@ -144,7 +141,6 @@ const TMapComponent = () => {
   function drawLine(arrPoint: any[]) {
     var polyline_;
 
-    console.log("drawLine", arrPoint);
     polyline_ = new window.Tmapv2.Polyline({
       path: arrPoint,
       strokeColor: "#85B6FF",
@@ -175,11 +171,6 @@ const TMapComponent = () => {
   }
 
   function handleGetCurrentLocation() {
-    console.log(
-      "handlegetcurrent poa",
-      currentPosition?.coords,
-      mapRef.current
-    );
     setCenter(
       currentPosition?.coords.latitude,
       currentPosition?.coords.longitude
@@ -273,10 +264,8 @@ const TMapComponent = () => {
       icon: imgURL,
       map: mapRef.current,
     }); // 마커 드래그 설정
-    console.log("event", dest);
     if (dest) {
       marker.addListener("click", () => {
-        console.log("touchstart");
         setDestination(dest);
       });
     }

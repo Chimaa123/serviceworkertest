@@ -105,7 +105,6 @@ const getFiles = () => {
         store.openCursor().onsuccess = (event: any) => {
           const cursor = event.target.result;
           if (cursor) {
-            console.log("upload unsent cursor exist", cursor.value);
             files.push(cursor.value);
             cursor.continue();
           } else {

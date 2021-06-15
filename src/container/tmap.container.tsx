@@ -55,7 +55,6 @@ const TMapComponent = () => {
     let lat = 37.56445848334345; // 위도
     let lon = 127.00973587385866; // 경도
     setCurrentPosition({ coords: { latitude: lat, longitude: lon } });
-    console.log("onLocationRetreived", lon, lat);
     // let lat = position.coords.latitude; // 위도
     // let lon = position.coords.longitude; // 경도
     addMarker("llMine", lon, lat, 0, setCenter);
