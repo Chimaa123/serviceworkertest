@@ -262,7 +262,7 @@ const TMapComponent = () => {
         imgURL = hubImage;
         break;
       case "llPoint":
-        imgURL = "http://topopen.tmap.co.kr/imgs/point.png";
+        // imgURL = "http://topopen.tmap.co.kr/imgs/point.png";
         break;
       default:
     }
