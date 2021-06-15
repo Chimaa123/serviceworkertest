@@ -269,6 +269,9 @@ const TMapComponent = () => {
       marker.addListener("click", () => {
         setDestination(dest);
       });
+      marker.addListener("touchstart", () => {
+        setDestination(dest);
+      });
     }
     marker.tag = tag;
 
