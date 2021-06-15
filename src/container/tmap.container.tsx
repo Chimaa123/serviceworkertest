@@ -39,6 +39,7 @@ const TMapComponent = () => {
   function initTmap() {
     mapRef.current = new window.Tmapv2.Map("TMapApp", {
       center: new window.Tmapv2.LatLng(37.566481622437934, 126.98502302169841),
+      httpsMode: true,
       width: "100%",
       height: "100%",
       zoom: 15,

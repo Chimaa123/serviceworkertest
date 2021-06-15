@@ -43,6 +43,7 @@ const TMapComponent = () => {
       center: new window.Tmapv2.LatLng(37.566481622437934, 126.98502302169841),
       width: "100%",
       height: "100%",
+      httpsMode: true,
       zoom: 15,
     });
 
@@ -255,7 +256,7 @@ const TMapComponent = () => {
         imgURL = hubImage;
         break;
       case "llPoint":
-        imgURL = "http://topopen.tmap.co.kr/imgs/point.png";
+        // imgURL = "http://topopen.tmap.co.kr/imgs/point.png";
         break;
       default:
     }
