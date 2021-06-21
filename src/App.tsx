@@ -15,6 +15,7 @@ function App() {
     navigator.serviceWorker.onmessage = (event) => {
       console.log("onMessage", event.data);
       if (event.data && event.data.type === "MSG_ID") {
+        alert("Upload completed.");
         //process response
       }
     };

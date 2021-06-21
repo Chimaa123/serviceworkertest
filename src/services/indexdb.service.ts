@@ -135,6 +135,7 @@ export const syncFiles = () => {
           },
           (data) => {
             console.log("sync oncomplete upload", data);
+            broadcast.postMessage({ type: "MSG_ID", data });
             deleteFromIndexdb(UPLOAD_STORE_NAME, file.id);
           }
         );
