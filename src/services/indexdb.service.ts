@@ -5,7 +5,6 @@ export const UPLOAD_STORE_NAME = "uploads";
 export const UPLOAD_SYNC_NAME = "upload-sync";
 
 declare const self: ServiceWorkerGlobalScope;
-const broadcast = new BroadcastChannel("channel-123");
 
 export const openDB = (storeName: string) => {
   console.log("index db open");
