@@ -5,6 +5,7 @@ export const UPLOAD_STORE_NAME = "uploads";
 export const UPLOAD_SYNC_NAME = "upload-sync";
 
 declare const self: ServiceWorkerGlobalScope;
+const broadcast = new BroadcastChannel("channel-123");
 
 export const openDB = (storeName: string) => {
   console.log("index db open");
@@ -127,7 +128,11 @@ export const syncFiles = () => {
       files.map((file) => {
         return uploadDirectS3(
           file.file,
-          () => {},
+          (progress) => {
+            //send message
+            console.log("uploading", progress);
+            broadcast.postMessage({ type: "MSG_ID", progress });
+          },
           (data) => {
             console.log("sync oncomplete upload", data);
             deleteFromIndexdb(UPLOAD_STORE_NAME, file.id);

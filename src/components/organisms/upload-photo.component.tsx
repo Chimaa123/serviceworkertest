@@ -45,6 +45,7 @@ const UploadPhotoComponent = () => {
       setMessage(MESSAGE_NO_CURRENT_IMAGE);
       return;
     }
+    alert("Image will be uploaded...");
 
     uploadFile(
       currentImage,

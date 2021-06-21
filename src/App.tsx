@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import UploadPhotoComponent from "./components/organisms/upload-photo.component";
 import TMapComponent from "./components/organisms/tmap.component";
 import Home from "./components/organisms/home.component";
+import { useStatus } from "./registrationStatus";
 
 function App() {
+  const status = useStatus();
+
+  useEffect(() => {
+    console.log("onMessage", navigator.serviceWorker);
+    //listen to messages
+    navigator.serviceWorker.onmessage = (event) => {
+      console.log("onMessage", event.data);
+      if (event.data && event.data.type === "MSG_ID") {
+        //process response
+      }
+    };
+  }, []);
+
   return (
     <Router>
       <Switch>
@@ -19,7 +33,9 @@ function App() {
           <Home />
         </Route>
       </Switch>
-      {/*<Navigation />*/}
+      <nav>
+        <div>{status}</div>
+      </nav>
     </Router>
   );
 }
