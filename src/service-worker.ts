@@ -124,7 +124,7 @@ self.addEventListener("fetch", (event: any) => {
   );
 });
 
-self.addEventListener("sync", function (event: any) {
+self.addEventListener("sync", async function (event: any) {
   const clients = await self.clients.matchAll({
     includeUncontrolled: true,
   });
