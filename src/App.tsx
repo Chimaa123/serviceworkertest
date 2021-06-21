@@ -12,13 +12,13 @@ function App() {
   useEffect(() => {
     console.log("onMessage", navigator.serviceWorker);
     //listen to messages
-    navigator.serviceWorker.onmessage = (event) => {
+    navigator.serviceWorker.addEventListener("message", (event) => {
       console.log("onMessage", event.data);
       if (event.data && event.data.type === "MSG_ID") {
         alert("Upload completed.");
         //process response
       }
-    };
+    });
   }, []);
 
   return (
