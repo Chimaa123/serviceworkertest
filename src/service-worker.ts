@@ -124,10 +124,7 @@ self.addEventListener("fetch", (event: any) => {
   );
 });
 
-self.addEventListener("sync", async function (event: any) {
-  const clients = await self.clients.matchAll({
-    includeUncontrolled: true,
-  });
+self.addEventListener("sync", function (event: any) {
   if (event.tag == UPLOAD_SYNC_NAME) {
     console.log("sync event fired in if");
     //waitUntil method is to ensure our uploadData method is performed without interrupt
@@ -135,12 +132,18 @@ self.addEventListener("sync", async function (event: any) {
       syncFiles()
         .then(() => {
           console.log("sync completed");
-          for (const client of clients) {
-            client.postMessage({
-              // Put whatever info you want here.
-              type: "MSG_ID",
+          self.clients
+            .matchAll({
+              includeUncontrolled: true,
+            })
+            .then(function (clients) {
+              for (const client of clients) {
+                client.postMessage({
+                  // Put whatever info you want here.
+                  type: "MSG_ID",
+                });
+              }
             });
-          }
         })
         .catch((err) => {
           console.log("sync error", err);
